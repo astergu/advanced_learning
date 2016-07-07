@@ -39,3 +39,12 @@ Documentation: https://gym.openai.com/docs
 
 * 环境状态
 * 自身状态
+
+## Perception
+occupancy grid
+
+## References
+Tutorial: Deep Reinforcement Learning
+http://icml.cc/2016/tutorials/deep_rl_tutorial.pdf
+
+http://www0.cs.ucl.ac.uk/staff/d.silver/web/Resources_files/deep_rl.pdf
