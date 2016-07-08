@@ -1,4 +1,4 @@
-# README
+# Deep Reinforcement Learning Materials
 
 ## Play with RL
 github page: https://github.com/harvitronix/reinforcement-learning-car
