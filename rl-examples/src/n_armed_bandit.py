@@ -26,11 +26,30 @@ def bestArm(a):
     bestArm = 0
     bestMean = 0
     for u in a:
-        avg = np.mean(a[np.where[(a[:,0] == u[0])[:,1]) # calculate mean reward for each action
+        avg = np.mean(a[np.where(a[:,0] == u[0])][:,1]) # calculate mean reward for each action
         if bestMean < avg:
-        bestMean = avg
-        beatArm = u[0]
+            bestMean = avg
+            beatArm = u[0]
     
     return bestArm
 
+
+if __name__ == '__main__':
+    plt.xlabel("Plays")
+    plt.ylabel("Avg Reward")
+    for i in range(500):
+        print "av: ", av
+        if random.random() > eps:  # greedy arm selection
+            choice = bestArm(av)
+            #print "choice: %d" % choice
+            thisAv = np.array([[choice, reward(arms[choice])]])
+            av = np.concatenate((av, thisAv), axis=0)
+        else:  # random arm selection
+            choice = np.where(arms == np.random.choice(arms))[0][0]
+            thisAV = np.array([[choice, reward(arms[choice])]])  # choice, reward
+        # calculate the percentage the correct arm is chosen (you can plot this instead of reward)
+        percCorrect = 100 * (len(av[np.where(av[:,0] == np.argmax(arms))])/len(av))
+        runningMean = np.mean(av[:,1])
+        plt.scatter(i, runningMean)
+    plt.show()
 
