@@ -19,8 +19,6 @@ def reward(prob):
             reward += 1
     return reward
 
-# memory array; has 1 row defaulted to random action index
-av = np.array([np.random.randint(0, (n+1)), 0]).reshape(1, 2)  # action-value
 
 def bestArm(a):
     bestArm = 0
@@ -35,18 +33,21 @@ def bestArm(a):
 
 
 if __name__ == '__main__':
+    # memory array; has 1 row defaulted to random action index
+    av = np.array([np.random.randint(0, (n+1)), 0]).reshape(1, 2)  # action-value
+    
     plt.xlabel("Plays")
     plt.ylabel("Avg Reward")
     for i in range(500):
-        print "av: ", av
+        print av
         if random.random() > eps:  # greedy arm selection
             choice = bestArm(av)
-            #print "choice: %d" % choice
             thisAv = np.array([[choice, reward(arms[choice])]])
             av = np.concatenate((av, thisAv), axis=0)
         else:  # random arm selection
             choice = np.where(arms == np.random.choice(arms))[0][0]
             thisAV = np.array([[choice, reward(arms[choice])]])  # choice, reward
+            av = np.concatenate((av, thisAV), axis=0)
         # calculate the percentage the correct arm is chosen (you can plot this instead of reward)
         percCorrect = 100 * (len(av[np.where(av[:,0] == np.argmax(arms))])/len(av))
         runningMean = np.mean(av[:,1])
