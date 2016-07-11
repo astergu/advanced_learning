@@ -28,9 +28,9 @@
 
 $$f(x)=\frac{1}{1+e^{-x}}$$
 
-![单极性Sigmoid函数图象](http://ww3.sinaimg.cn/large/6cbb8645gw1exsmps4xz7j20b408cmx8.jpg)
+![单极性Sigmoid函数图象](https://takinginitiative.files.wordpress.com/2008/04/sigmoidfunction.png?w=680g)
 
-Sigmoid函数的值域范围为(0, 1].
+Sigmoid函数的值域范围为(0, 1).
 
 ### 神经网络的学习算法——BP算法
 
