@@ -21,14 +21,24 @@ def reward(prob):
 
 
 def bestArm(a):
+    """
+        return param:
+        @bestArm: the best choice of arm
+    """
     bestArm = 0
     bestMean = 0
+    print "a: ", a
     for u in a:
+        print "u: ", u
+        print "a[:,0]:", a[:,0]
+        print "np.where:", np.where(a[:,0]==u[0])
         avg = np.mean(a[np.where(a[:,0] == u[0])][:,1]) # calculate mean reward for each action
+        print "avg: ", avg
         if bestMean < avg:
             bestMean = avg
             beatArm = u[0]
     
+    print "bestArm: ", bestArm
     return bestArm
 
 
@@ -38,14 +48,16 @@ if __name__ == '__main__':
     
     plt.xlabel("Plays")
     plt.ylabel("Avg Reward")
-    for i in range(500):
-        print av
-        if random.random() > eps:  # greedy arm selection
+    for i in range(5):
+        prop = random.random()
+        print "------------\nprop: %f" % prop
+        if prop > eps:  # greedy arm selection, 90% using historical action-values
             choice = bestArm(av)
             thisAv = np.array([[choice, reward(arms[choice])]])
             av = np.concatenate((av, thisAv), axis=0)
         else:  # random arm selection
             choice = np.where(arms == np.random.choice(arms))[0][0]
+            print "best choice: %d" % choice
             thisAV = np.array([[choice, reward(arms[choice])]])  # choice, reward
             av = np.concatenate((av, thisAV), axis=0)
         # calculate the percentage the correct arm is chosen (you can plot this instead of reward)
