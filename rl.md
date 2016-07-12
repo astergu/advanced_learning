@@ -1,6 +1,7 @@
 # Reinforcement Learning Notes
 
 ## 主要概念
+大多数强化学习算法都假设待解决问题是马尔可夫决策过程（或者近似于马尔可夫决策过程）。
 
 ### 马尔可夫决策过程（Markov Decision Process）
 强化学习(Reinforcement Learning）的基本算法是马尔可夫决策过程。马尔可夫决策过程是
