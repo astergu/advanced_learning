@@ -9,6 +9,21 @@ n = 10
 arms = np.random.rand(n)
 eps = 0.1
 
+av = np.ones(n) # initialize action-value array
+counts = np.zeros(n)  # stores counts of how many times we've taken a particular action
+# stores our softmax-generated probability ranks for each action
+av_softmax = np.zeros(n)
+av_softmax[:] = 0.1  # initialize each action to have equal probability
+tau = 1.12  # tau was selected by trial and error
+
+def softmax(av):
+    probs = np.zeros(n)
+    for i in range(n):
+        softm = (np.exp(av[i]/tau) / np.sum(np.exp(av[:]/tau)))
+        probs[i] = softm
+    return probs
+
+
 def reward(prob):
     """
         mimic the reward ranging from 0 to 10.
@@ -20,49 +35,19 @@ def reward(prob):
     return reward
 
 
-def bestArm(a):
-    """
-        return param:
-        @bestArm: the best choice of arm
-    """
-    bestArm = 0
-    bestMean = 0
-    print "a: ", a
-    for u in a:
-        print "u: ", u
-        print "a[:,0]:", a[:,0]
-        print "np.where:", np.where(a[:,0]==u[0])
-        avg = np.mean(a[np.where(a[:,0] == u[0])][:,1]) # calculate mean reward for each action
-        print "avg: ", avg
-        if bestMean < avg:
-            bestMean = avg
-            beatArm = u[0]
-    
-    print "bestArm: ", bestArm
-    return bestArm
-
-
 if __name__ == '__main__':
-    # memory array; has 1 row defaulted to random action index
-    av = np.array([np.random.randint(0, (n+1)), 0]).reshape(1, 2)  # action-value
-    
     plt.xlabel("Plays")
-    plt.ylabel("Avg Reward")
-    for i in range(5):
-        prop = random.random()
-        print "------------\nprop: %f" % prop
-        if prop > eps:  # greedy arm selection, 90% using historical action-values
-            choice = bestArm(av)
-            thisAv = np.array([[choice, reward(arms[choice])]])
-            av = np.concatenate((av, thisAv), axis=0)
-        else:  # random arm selection
-            choice = np.where(arms == np.random.choice(arms))[0][0]
-            print "best choice: %d" % choice
-            thisAV = np.array([[choice, reward(arms[choice])]])  # choice, reward
-            av = np.concatenate((av, thisAV), axis=0)
-        # calculate the percentage the correct arm is chosen (you can plot this instead of reward)
-        percCorrect = 100 * (len(av[np.where(av[:,0] == np.argmax(arms))])/len(av))
-        runningMean = np.mean(av[:,1])
+    plt.ylabel("Mean Reward")
+    for i in range(500):
+        choice = np.where(arms == np.random.choice(arms, p=av_softmax))[0][0]
+        counts[choice] += 1
+        k = counts[choice]
+        rwd = reward(arms[choice])
+        old_avg = av[choice]
+        new_avg = old_avg + (1/k) * (rwd - old_avg)
+        av[choice] = new_avg
+        av_softmax = softmax(av)  # update softmax probabilities for next play
+
+        runningMean = np.average(av, weights=np.array([counts[j]/np.sum(counts) for j in range(len(counts))]))
         plt.scatter(i, runningMean)
     plt.show()
-
