@@ -41,4 +41,25 @@ def updateQtable(av_table, av_count, returns):
 
 # returns Q-value/avg rewards for each action given a state
 def qsv(state, av_table):
-    stay = 
+    stay = av_table[(state, 0)]
+    hit = av_table[(state, 1)]
+    return np.array([stay, hit])
+   
+# converts a game state of the form ((player total, ace), (dealer total, ace), status)
+# to a condensed state we'll use for our RL algorithm (player total, usable ace, dealer card)
+def getRLstate(state):
+    player_hand, dealer_hand, status = state
+    player_val, player_ace = player_hand
+    return (player_val, player_ace, dealer_hand[0])
+
+
+if __name__ == '__main__':
+    epoches = 5000000
+    epsilon = 0.1
+    
+    state_space = initStateSpace()
+    av_table = initStateActions(state_space)
+    av_count = initSAccount(av_table)
+
+    for i in range(epoches):
+        
