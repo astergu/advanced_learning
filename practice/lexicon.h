@@ -1,24 +1,18 @@
 #include <vector>
-typedef std::string Str;
+#include <string>
 
 namespace com {
 namespace baidu {
-namespace utility {
+namespace util {
 
-struct LexiconTable {
-    int col_num;
+class LexiconParser {
+    void parse_from_file(std::string path, std::vector<std::string> types);
+    void translate_builtin_datatype(std::string record);
+    template<class T>
+        T translate_user_defined_struct(std::string record);
 };
 
-void parse_from_file(std::string path);
-void parse_from_file(std::ifstream f);
 
-class Singleton {
-    public:
-        static Singleton getInstance();
-    private:
-        static final Singleton instance = new Singleton();
-        Singleton() {}
-};
 }
 }
 }

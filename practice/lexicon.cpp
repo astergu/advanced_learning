@@ -13,11 +13,38 @@
  * 每一列的数据中均不包含\t字符，每一行以\n结尾。
  */
 
+#include <iostream>
+#include <fstream>
+#include "lexicon.h"
 
 namespace com {
 namespace baidu {
-namespace utility {
+namespace util {
+    void parse_from_file(std::string path, std::vector<std::string> types) {
+        ifstream fin(path.c_str(), ifstream::in);  // open as stream
+        std::string line;
+        if (!fin) {
+            std::cerr << "Couldn't open the file " << path << "!";
+            exit(1); 
+        }
+        
+        while (std::getline(fin, line)) {
 
+        }
+
+    }
+
+    void LexiconParser::translate_builtin_datatype(std::string record) {
+    }
+
+    template<class T>
+       T LexiconParser::translate_user_defined_struct(std::string record) {
+    }
 }
 }
+}
+
+int main(int argc, char** argv) {
+    com::baidu::util::LexiconParser lp;
+    return 0;
 }
