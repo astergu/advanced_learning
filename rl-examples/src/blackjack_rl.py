@@ -62,4 +62,8 @@ if __name__ == '__main__':
     av_count = initSAccount(av_table)
 
     for i in range(epoches):
-        
+        # initialize new game; observe current state
+        state = initGame()
+        player_hand, dealer_hand, status = state
+        # if player's total is less than 11, increase total by adding another card
+        # we do this because whenever the players
